@@ -1,8 +1,8 @@
 export class Todo {
   done: boolean;
-  today: boolean;
+  id: number;
   constructor(public todo: string) {
     this.done = false;
-    this.today = false;
+    this.id = new Date().getTime();
   }
 }
