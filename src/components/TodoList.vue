@@ -21,6 +21,7 @@ import { Vue, Options } from "vue-class-component";
 import { Todo } from "../models/Todo";
 import TodoInput from "./TodoInput.vue";
 import TodoSingle from "./TodoSingle.vue";
+import { LocalStorageService } from "../services/LocalStorageService";
 
 @Options({
   components: {
@@ -29,29 +30,31 @@ import TodoSingle from "./TodoSingle.vue";
   },
 })
 export default class TodoList extends Vue {
+  service = new LocalStorageService();
   todoList: Todo[] = [];
 
   mounted() {
-    this.getFromLocalStorage();
+    this.todoList = this.service.getFromLocalStorage();
   }
+
   addTodoToList(recivedTodo: Todo) {
     this.todoList.push(recivedTodo);
     console.log(recivedTodo);
-    this.sendToLocalStorage();
+    this.service.sendToLocalStorage(this.todoList);
   }
 
   toggleDone(todoId: number) {
     let todo = this.todoList.find((todo) => todo.id === todoId);
     if (todo) {
       todo.done = !todo.done;
-      this.sendToLocalStorage();
+      this.service.sendToLocalStorage(this.todoList);
     }
   }
 
   deleteTodo(todoId: number) {
     let index = this.todoList.findIndex((todo) => todo.id === todoId);
     this.todoList.splice(index, 1);
-    this.sendToLocalStorage();
+    this.service.sendToLocalStorage(this.todoList);
   }
 
   moveUp(todoId: number) {
@@ -60,7 +63,7 @@ export default class TodoList extends Vue {
       let toIndex = fromIndex - 1;
       let element = this.todoList.splice(fromIndex, 1)[0];
       this.todoList.splice(toIndex, 0, element);
-      this.sendToLocalStorage();
+      this.service.sendToLocalStorage(this.todoList);
     }
   }
 
@@ -70,20 +73,7 @@ export default class TodoList extends Vue {
       let toIndex = fromIndex + 1;
       let element = this.todoList.splice(fromIndex, 1)[0];
       this.todoList.splice(toIndex, 0, element);
-      this.sendToLocalStorage();
-    }
-  }
-
-  sendToLocalStorage() {
-    localStorage.setItem("todoList", JSON.stringify(this.todoList));
-  }
-
-  getFromLocalStorage() {
-    let LStodoList = localStorage.getItem("todoList");
-    if (!LStodoList) {
-      this.sendToLocalStorage();
-    } else {
-      this.todoList = JSON.parse(LStodoList);
+      this.service.sendToLocalStorage(this.todoList);
     }
   }
 }
