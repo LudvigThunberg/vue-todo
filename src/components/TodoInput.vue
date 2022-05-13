@@ -10,10 +10,13 @@
 </template>
 <script lang="ts">
 import { Vue } from "vue-class-component";
+import { Prop } from "vue-property-decorator";
 import { Todo } from "../models/Todo";
 
 export default class TodoInput extends Vue {
   todoInput = "";
+  @Prop() currentListId!: number;
+  listId = 0;
 
   handleAddTodo() {
     if (this.todoInput.length > 0) {
@@ -27,11 +30,11 @@ export default class TodoInput extends Vue {
 <style lang="scss" scoped>
 .input-container {
   width: 100%;
-  padding-top: 30px;
   input {
     padding: 7px;
     margin-bottom: 20px;
     border: none;
+    min-width: 365px;
     width: 100%;
     min-width: 375;
     border-bottom: 1px solid gray;

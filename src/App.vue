@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1 class="todo-heading">Things To Do</h1>
-    <TodoList class="container" />
+    <ListOfTodoLists />
+    <!-- <ListOfTodos class="container" /> -->
   </div>
 </template>
 
@@ -9,11 +10,13 @@
 import { Options, Vue } from "vue-class-component";
 
 import { Todo } from "./models/Todo";
-import TodoList from "./components/TodoList.vue";
+import ListOfTodos from "./components/ListOfTodos.vue";
+import ListOfTodoLists from "./components/ListOfTodoLists.vue";
 
 @Options({
   components: {
-    TodoList,
+    ListOfTodos,
+    ListOfTodoLists,
   },
 })
 export default class App extends Vue {
@@ -39,7 +42,7 @@ export default class App extends Vue {
     .container {
       background: #f8f8f8;
       min-width: 375px;
-      max-width: 600px;
+      max-width: 1240px;
       display: flex;
       flex-direction: column;
       align-items: center;
